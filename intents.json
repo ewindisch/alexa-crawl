@@ -1,22 +1,11 @@
 {
   "intents": [
     {
-      "intent": "ElapsedIntent"
-    },
-    {
-      "intent": "MoveIntent",
+      "intent": "AttackIntent",
       "slots": [
         {
-          "name": "Piece",
-          "type": "CHESS_PIECE"
-        },
-        {
-          "name": "GridLetter",
-          "type": "GRID_LETTER"
-        },
-        {
-          "name": "GridNumber",
-          "type": "GRID_NUMBER"
+          "name": "Monster",
+          "type": "MONSTERS"
         }
       ]
     },
