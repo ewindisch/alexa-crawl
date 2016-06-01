@@ -98,7 +98,7 @@ exports.handle = function(event, context) {
     var player = response.sessionAttributes.gamestate.player
     var monster = newMonster(response.sessionAttributes.gamestate)
     response.sessionAttributes.gamestate.monster = monster 
-    var state = "A " + monster.name + ", level " + mlevel + ", approaches. Player has " + player.hp + " H.P. Attack or flee?"
+    var state = "A " + monster.name + ", level " + mlevel + ", approaches. Player has " + player.hp + " H.P. Attack monster or flee?"
     response.response.outputSpeech = {
       type: "PlainText",
       text: "Welcome player. See how long you can survive the horde. " + state
@@ -120,7 +120,7 @@ exports.handle = function(event, context) {
       } else if (intent === "AMAZON.HelpIntent") {
         response.response.outputSpeech = {
           type: "PlainText",
-          text: "Monster Crawl is a game in which the player is confronted by monsters and must destroy them, one by one, until the player's death. It is a game of survival, how long the player can last and how high the player can level up. Confronted with a monster, a player may attack or flee by saying, 'attack', or 'flee'."
+          text: "Monster Crawl is a game in which the player is confronted by monsters and must destroy them, one by one, until the player's death. It is a game of survival, how long the player can last and how high the player can level up. Confronted with a monster, a player may attack or flee by saying, 'attack monster', or 'flee'."
         }
       } else if (intent === "FleeIntent") {
         /* Monster roll versus player roll; offset by player levels */
@@ -129,12 +129,12 @@ exports.handle = function(event, context) {
           response.sessionAttributes.gamestate.monster = new_monster
           response.response.outputSpeech = {
             type: "PlainText",
-            text: "Player runs away. New monster appears! A level " + monster.level + " " + monster.name + " looks at the player threateningly."
+            text: "Player runs away. New monster appears! A level " + new_monster.level + " " + new_monster.name + " looks at the player threateningly."
           }
         } else {
           response.response.outputSpeech = {
             type: "PlainText",
-            text: "Player was unable to run away. Attack or flee?"
+            text: "Player was unable to run away. Attack monster or flee?"
           }
         }
       } else if (intent === "AttackIntent") {
@@ -160,7 +160,7 @@ exports.handle = function(event, context) {
           }
           response.response.outputSpeech = {
             type: "PlainText",
-            text: "Player attacks " + monster.name + ". Monster dies. Player collects " + monster.xp + " experience points. " + levelup + "New monster approaches, level " + new_monster.level + " " + new_monster.name + ". Player has " + player.hp + " H.P. Attack or flee?"
+            text: "Player attacks " + monster.name + ". Monster dies. Player collects " + monster.xp + " experience points. " + levelup + "New monster approaches, level " + new_monster.level + " " + new_monster.name + ". Player has " + player.hp + " H.P. Attack monster or flee?"
           }
         } else {
           var dies = ""
@@ -171,7 +171,7 @@ exports.handle = function(event, context) {
           }
           response.response.outputSpeech = {
             type: "PlainText",
-            text: "Player attacks " + monster.name + " for " + attack + " points. Monster attacks player for " + monster.atk + " points. Player has " + player.hp + " H.P." + dies
+            text: "Player attacks " + monster.name + " for " + attack + " points. " + monster.name + " attacks player for " + monster.atk + " points. Player has " + player.hp + " H.P." + dies
           }
         }
       } else if (intent === "AMAZON.StopIntent" || intent === "AMAZON.CancelIntent") {
