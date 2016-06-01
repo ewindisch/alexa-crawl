@@ -1,5 +1,12 @@
 AttackIntent attack
+AttackIntent a tack
+AttackIntent at ack
+AttackIntent atrack
+AttackIntent a track
 AttackIntent attack monster
 AttackIntent attack {Monster}
 AttackIntent hurt {Monster}
 AttackIntent hurt monster
+FleeIntent run away
+FleeIntent escape
+FleeIntent flee

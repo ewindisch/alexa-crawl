@@ -103,6 +103,7 @@ exports.handle = function(event, context) {
       type: "PlainText",
       text: "Welcome player. See how long you can survive the horde. " + state
     }
+    response.reprompt = "The level " + mlevel + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Say, attack monster, flee, or help."
   } else {
     response.sessionAttributes = event.session.attributes
     var player = response.sessionAttributes.gamestate.player
@@ -120,8 +121,11 @@ exports.handle = function(event, context) {
       } else if (intent === "AMAZON.HelpIntent") {
         response.response.outputSpeech = {
           type: "PlainText",
-          text: "Monster Crawl is a game in which the player is confronted by monsters and must destroy them, one by one, until the player's death. It is a game of survival, how long the player can last and how high the player can level up. Confronted with a monster, a player may attack or flee by saying, 'attack monster', or 'flee'."
+          text: "Monster Crawl is a game in which the player is confronted by monsters and must destroy them, one by one, until the player's death. It is a game of survival, how long the player can last and how high the player can level up. Confronted with a monster, a player may attack or flee by saying, attack monster, or flee... A level " + monster.level + " " + monster.name + " awaits. Player has " + player.hp + " H.P. Attack monster or flee?"
+
+
         }
+        response.reprompt = "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
       } else if (intent === "FleeIntent") {
         /* Monster roll versus player roll; offset by player levels */
         if (rollDie() < rollDie() - (monster.level - player.level)) {
@@ -129,14 +133,15 @@ exports.handle = function(event, context) {
           response.sessionAttributes.gamestate.monster = new_monster
           response.response.outputSpeech = {
             type: "PlainText",
-            text: "Player runs away. New monster appears! A level " + new_monster.level + " " + new_monster.name + " looks at the player threateningly."
+            text: "Player runs away. New monster appears! A level " + new_monster.level + " " + new_monster.name + " looks at the player threateningly. Attack or flee?"
           }
         } else {
           response.response.outputSpeech = {
             type: "PlainText",
-            text: "Player was unable to run away. Attack monster or flee?"
+            text: "Player was unable to run away. A level " + monster.level + " " + monster.name + " awaits. Player has " + player.hp + " H.P. Attack monster or flee?"
           }
         }
+        response.reprompt = "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
       } else if (intent === "AttackIntent") {
         var levelup = ""
         var attack = player.atk
@@ -162,17 +167,21 @@ exports.handle = function(event, context) {
             type: "PlainText",
             text: "Player attacks " + monster.name + ". Monster dies. Player collects " + monster.xp + " experience points. " + levelup + "New monster approaches, level " + new_monster.level + " " + new_monster.name + ". Player has " + player.hp + " H.P. Attack monster or flee?"
           }
+          response.reprompt = "The level " + new_monster.level + " " + new_monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
         } else {
           var dies = ""
           if (player.hp < 1) {
             dies = " Player dies. Game was played for " + elapsed + " minutes. Player reached level " + player.level + " with " + player.xp + " experience points by defeating " + gamestate.monsters_defeated + " monsters, but was ultimately vanquished. The End."
             //dies = " Player dies. The end."
             response.response.shouldEndSession = true
+          } else {
+            dies = " Attack or flee?"
           }
           response.response.outputSpeech = {
             type: "PlainText",
             text: "Player attacks " + monster.name + " for " + attack + " points. " + monster.name + " attacks player for " + monster.atk + " points. Player has " + player.hp + " H.P." + dies
           }
+          response.reprompt = "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P.  Please say, attack monster, flee, or help."
         }
       } else if (intent === "AMAZON.StopIntent" || intent === "AMAZON.CancelIntent") {
         var endtime = Date.now()

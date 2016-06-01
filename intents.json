@@ -16,7 +16,10 @@
       "intent": "AMAZON.CancelIntent"
     },
     {
-      "intent": "AMAZON.NextIntent"
+      "intent": "FleeIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
     }
   ]
-} 
+}
