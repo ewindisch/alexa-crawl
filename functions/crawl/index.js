@@ -103,7 +103,12 @@ exports.handle = function(event, context) {
       type: "PlainText",
       text: "Welcome player. See how long you can survive the horde. " + state
     }
-    response.reprompt = "The level " + mlevel + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Say, attack monster, flee, or help."
+    response.reprompt = {
+      outputSpeech: {
+        type: "PlainText",
+        text: "The level " + mlevel + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Say, attack monster, flee, or help."
+      }
+    }
   } else {
     response.sessionAttributes = event.session.attributes
     var player = response.sessionAttributes.gamestate.player
@@ -125,7 +130,12 @@ exports.handle = function(event, context) {
 
 
         }
-        response.reprompt = "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
+        response.reprompt = {
+          outputSpeech: {
+            type: "PlainText",
+            text: "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
+          }
+        }
       } else if (intent === "FleeIntent") {
         /* Monster roll versus player roll; offset by player levels */
         if (rollDie() < rollDie() - (monster.level - player.level)) {
@@ -141,7 +151,12 @@ exports.handle = function(event, context) {
             text: "Player was unable to run away. A level " + monster.level + " " + monster.name + " awaits. Player has " + player.hp + " H.P. Attack monster or flee?"
           }
         }
-        response.reprompt = "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
+        response.reprompt = {
+          outputSpeech: {
+            type: "PlainText",
+            text: "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
+          }
+        }
       } else if (intent === "AttackIntent") {
         var levelup = ""
         var attack = player.atk
@@ -167,7 +182,12 @@ exports.handle = function(event, context) {
             type: "PlainText",
             text: "Player attacks " + monster.name + ". Monster dies. Player collects " + monster.xp + " experience points. " + levelup + "New monster approaches, level " + new_monster.level + " " + new_monster.name + ". Player has " + player.hp + " H.P. Attack monster or flee?"
           }
-          response.reprompt = "The level " + new_monster.level + " " + new_monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
+          response.reprompt = {
+            outputSpeech: {
+              type: "PlainText",
+              text: "The level " + new_monster.level + " " + new_monster.name + " stares intensely at the player. Player has " + player.hp + " H.P. Please say, attack monster, flee, or help."
+            }
+          }
         } else {
           var dies = ""
           if (player.hp < 1) {
@@ -181,7 +201,12 @@ exports.handle = function(event, context) {
             type: "PlainText",
             text: "Player attacks " + monster.name + " for " + attack + " points. " + monster.name + " attacks player for " + monster.atk + " points. Player has " + player.hp + " H.P." + dies
           }
-          response.reprompt = "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P.  Please say, attack monster, flee, or help."
+          response.reprompt = {
+            outputSpeech: {
+              type: "PlainText",
+              text: "The level " + monster.level + " " + monster.name + " stares intensely at the player. Player has " + player.hp + " H.P.  Please say, attack monster, flee, or help."
+            }
+          }
         }
       } else if (intent === "AMAZON.StopIntent" || intent === "AMAZON.CancelIntent") {
         var endtime = Date.now()
