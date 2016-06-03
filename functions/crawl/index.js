@@ -121,7 +121,7 @@ exports.handle = function(event, context) {
       } else if (intent === "AMAZON.HelpIntent") {
         response.response.outputSpeech = {
           type: "PlainText",
-          text: "Monster Crawl is a game in which the player is confronted by monsters and must destroy them, one by one, until the player's death. It is a game of survival, how long the player can last and how high the player can level up. Confronted with a monster, a player may attack or flee by saying, attack monster, or flee... A level " + monster.level + " " + monster.name + " awaits. Player has " + player.hp + " H.P. Attack monster or flee?"
+          text: "Monster Crawl is a game in which the player is confronted by monsters and must destroy them, one by one, until the player's death. It is a game of survival, how long the player can last and how high the player can level up. Confronted with a monster, a player may attack or flee by saying, attack monster, or flee... By saying 'attack monster', the player will roll an attack point and health points will be taken from the monster. The monster will also roll attack points which will be removed from the player. Periodically, I will report the H.P. of a player, an abbreviation of Health Points. A level " + monster.level + " " + monster.name + " awaits. Player has " + player.hp + " H.P. Attack monster or flee?"
 
 
         }
